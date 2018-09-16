@@ -25,6 +25,7 @@ public class MessageService {
             return dao.getById(id);
         } catch (DAOException e) {
             e.printStackTrace();
+            return null;
         }
 	}
 	
@@ -33,22 +34,27 @@ public class MessageService {
             return dao.getAll();
         } catch (DAOException e) {
             e.printStackTrace();
+            return null;
         }
 	}
 	
-	public void update(Message m) {
+	public boolean update(Message m) {
         try {
             dao.update(m);
+            return true;
         } catch (DAOException e) {
             e.printStackTrace();
+            return false;
         }
 	}
 
-	public void delete(Integer id) {
+	public boolean delete(Integer id) {
         try {
             dao.delete(id);
+            return true;
         } catch (DAOException e) {
             e.printStackTrace();
+            return false;
         }
 	}
 

@@ -1,5 +1,7 @@
 package webCrud.domain;
 
+import java.util.Objects;
+
 public class Message {
 	String to;
 	String msg;

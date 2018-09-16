@@ -13,7 +13,7 @@ public class MessageDao implements MessageDaoInterface {
 	
 	public MessageDao(){}
 
-	public void insert(Message m) {
+	public void insert(Message m) throws DAOException {
 		Integer maxId = 0;
 		for(int i=0 ; i<db.size() ; i++) {
 			if(db.get(i).getId()==m.getId()) {
@@ -25,7 +25,7 @@ public class MessageDao implements MessageDaoInterface {
 		db.add(m);
 	}
 	
-	public Message getById(Integer id){
+	public Message getById(Integer id) throws DAOException{
 		for(Message m : db) {
 			if(m.getId()==id) {
 				return m;
@@ -34,14 +34,14 @@ public class MessageDao implements MessageDaoInterface {
 		throw new DAOException("Houve um erro na busca, id não encontrado");
 	}
 	
-	public List<Message> getAll(){
+	public List<Message> getAll() throws DAOException{
 		if (db == null) {
 			throw new DAOException("Houve um erro na busca, lista não inicializada");
 		}
 		return db;
 	}
 	
-	public void update(Message m) {
+	public void update(Message m) throws DAOException {
 		for(int i=0 ; i<db.size(); i++) {
 			if(db.get(i).getId()==m.getId()) {
 				db.get(i).setMsg(m.getMsg());
@@ -52,7 +52,7 @@ public class MessageDao implements MessageDaoInterface {
 		throw new DAOException("Erro em atualizar a mensagem, id não encontrado");
 	}
 
-	public void delete(Integer id) {
+	public void delete(Integer id) throws DAOException {
 		for(int i=0 ; i<db.size(); i++) {
 			if(db.get(i).getId()==id) {
 				db.remove(i);
@@ -61,7 +61,6 @@ public class MessageDao implements MessageDaoInterface {
 			}
 		}
 		throw new DAOException("Erro em deletar a mensagem, id não encontrado");
-		return;
 	}
 	
 }
