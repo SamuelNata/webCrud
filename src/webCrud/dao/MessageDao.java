@@ -5,24 +5,24 @@ import java.util.List;
 
 import webCrud.db.DB;
 import webCrud.domain.Message;
+import webCrud.exception.DAOException;
+
 
 public class MessageDao implements MessageDaoInterface {
 	ArrayList<Message> db = DB.getInstance().getData();
 	
 	public MessageDao(){}
-	
-	
+
 	public void insert(Message m) {
 		Integer maxId = 0;
 		for(int i=0 ; i<db.size() ; i++) {
 			if(db.get(i).getId()==m.getId()) {
-				return;
+				throw new DAOException("Erro ao inserir no banco de dados");
 			}
 			maxId = db.get(i).getId()>maxId? db.get(i).getId() : maxId;  
 		}
 		m.setId(maxId+1);
 		db.add(m);
-		return;
 	}
 	
 	public Message getById(Integer id){
@@ -31,10 +31,13 @@ public class MessageDao implements MessageDaoInterface {
 				return m;
 			}
 		}
-		return null;
+		throw new DAOException("Houve um erro na busca, id não encontrado");
 	}
 	
 	public List<Message> getAll(){
+		if (db == null) {
+			throw new DAOException("Houve um erro na busca, lista não inicializada");
+		}
 		return db;
 	}
 	
@@ -46,7 +49,7 @@ public class MessageDao implements MessageDaoInterface {
 				return;
 			}
 		}
-		return;
+		throw new DAOException("Erro em atualizar a mensagem, id não encontrado");
 	}
 
 	public void delete(Integer id) {
@@ -57,7 +60,7 @@ public class MessageDao implements MessageDaoInterface {
 				return;
 			}
 		}
-		System.out.println("Not Removed");
+		throw new DAOException("Erro em deletar a mensagem, id não encontrado");
 		return;
 	}
 	
